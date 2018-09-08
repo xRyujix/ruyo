@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>List All User</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<center>
+    <p><a href="/adduser">agregar nuevo usuario</a> </p>
+    <h1>List All Users</h1>
+
+    <table>
+        <tr>
+            <td>ID</td>
+            <td>Username</td>
+            <td>Password</td>
+            <td>Email</td>
+        </tr>
+        <tr th:each="user: ${listusers}"
+            th:if="${user.username != null and user.password != null and
+            user.username != 'null' and user.password != 'null' }" >
+            <td th:text="${user.id}"/>
+            <td th:text="${user.username}"/>
+            <td th:text="${user.password}"/>
+            <td th:text="${user.email}"/>
+            <td>
+                <a href="/edituser?id=${user.id}">Edit</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="/deleteuser?id=${user.id}">Delete</a>
+            </td>
+        </tr>
+    </table>
+</center>
+</body>
+</html>

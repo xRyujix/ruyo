@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add new player</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        body{
+            background-color: black;
+            color:white;
+        }
+
+        .btn {
+            -webkit-border-radius: 60;
+            -moz-border-radius: 60;
+            border-radius: 60px;
+            -webkit-box-shadow: 0px 0px 20px #666666;
+            -moz-box-shadow: 0px 0px 20px #666666;
+            box-shadow: 0px 0px 20px #666666;
+            font-family: Arial;
+            color: #FFFFFF;
+            font-size: 10px;
+
+            padding: 2px 10px 2px 10px;
+            text-decoration: none;
+        }
+
+        .btnEdit{
+            background: #1b8700;
+        }
+
+        .btnDelete{
+            background: #750000;
+        }
+
+        .btnDelete:hover {
+            background: #ff0000;
+            text-decoration: none;
+        }
+
+        .btnEdit:hover {
+            background: limegreen;
+            text-decoration: none;
+        }
+        table.minimalistBlack {
+            border: 3px solid #FFFFFF;
+            width: 100%;
+            text-align: center;
+            border-collapse: collapse;
+        }
+        table.minimalistBlack td, table.minimalistBlack th {
+            border: 1px solid #FFFFFF;
+            padding: 5px 4px;
+        }
+        table.minimalistBlack tbody td {
+            font-size: 15px;
+            color: #FFFFFF;
+        }
+        table.minimalistBlack thead {
+            border-bottom: 3px solid #FFFFFF;
+        }
+        table.minimalistBlack thead th {
+            font-size: 16px;
+            font-weight: bold;
+            color: #FFFFFF;
+            text-align: center;
+        }
+        table.minimalistBlack tfoot td {
+            font-size: 14px;
+        }
+
+    </style>
+</head>
+<body>
+
+<center>
+    <h1>Add new player</h1>
+    <h2 th:if="${player_not_exist}"> El email ya esta siendo usado</h2>
+    <h2 th:if="${player_not_inserted}"> Error en insertar el player </h2>
+    <form  th:action="@{/players}"  method="post">
+        <table>
+            <tr>
+                <td><input type="text" th:name="firstname" th:required="required" placeholder="Firstname"/></td>
+            </tr>
+            <tr>
+                <td> <input type="text" th:name="lastname" th:required="required" placeholder="Lastname"/></td>
+            </tr>
+            <tr>
+                <td> <input type="text" th:name="age" th:required="required" placeholder="Age"/></td>
+            </tr>
+            <tr>
+                <td> <input type="text" th:name="email" th:required="required" placeholder="Email"/></td>
+            </tr>
+            <tr>
+                <td> <input type="text" th:name="nationality" th:required="required" placeholder="Nationality"/></td>
+            </tr>
+            <tr>
+                <td style="text-align:center;" colspan="2"><button type="submit">agregar</button></td>
+            </tr>
+        </table>
+    </form>
+
+
+    <h1>List All players</h1>
+    <h2 th:if="${player_deleted}"> Player borrado </h2>
+    <h2 th:if="${player_not_validate}"> Player ya fue borrado </h2>
+
+    <h2>Change the view</h2>
+    <form th:action="@{/changeview}" method="get">
+        <select th:value="status" th:name="status">
+            <option th:value="0" th:text="DEFAULT"/>
+            <option th:value="1" th:text="ENABLED_AND_NOTDELETED"/>
+            <option th:value="2" th:text="NOTENABLED_AND_NOTDELETED"/>
+            <option th:value="3" th:text="NOTENABLED_AND_DELETED"/>
+        </select>
+        <td style="text-align:center;" colspan="2"><button type="submit">Cambiar</button></td>
+    </form>
+    <br/>
+    <table class="minimalistBlack">
+        <thead>
+        <tr>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Age</th>
+            <th>Email</th>
+            <th>nationality</th>
+            <th colspan="2">Options</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="player: ${listplayers}">
+            <td th:text="${player.firstname}"/>
+            <td th:text="${player.lastname}"/>
+            <td th:text="${player.age}"/>
+            <td th:text="${player.email}"/>
+            <td th:text="${player.nationality}"/>
+            <td>
+                <a class="btn btnEdit" th:href="@{/edit(id=${player.id})}">Edit</a>
+            </td>
+            <td>
+                <a class="btn btnDelete" th:href="@{/delete(id=${player.id})}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</center>
+
+
+</body>
+</html>
